@@ -5,16 +5,16 @@ import {connect} from 'react-redux';
 class List extends Component{
     constructor(props) {
         super(props);
-        this.state = {toggleGames: true};
+        this.state = {};
     }
     render() {
         return (
             <div className='list-of-games'>
                 <h1>List of games</h1>
                 <ShowButton 
-                    toggleGames={this.state.toggleGames}
+                    toggleGames={this.props.games.list.length}
                 />
-                <ul style={{ display: this.state.toggleGames ? 'block': 'none' }}>
+                <ul style={{ display: this.props.games.list.length ? 'block': 'none' }}>
                     {this.mapItems()}
                 </ul>
             </div>
@@ -23,7 +23,7 @@ class List extends Component{
     };
 
     mapItems() {
-        return this.props.games.items.map((item, index) => {
+        return this.props.games.list.map((item, index) => {
             return (<li key={index}>{item.name} ({item.genre})</li>);
         })
     }

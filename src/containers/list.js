@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import ShowButton from './show-button';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {removeGame} from '../actions/games';
 
 class List extends Component{
     constructor(props) {
@@ -14,9 +16,20 @@ class List extends Component{
                 <ShowButton 
                     toggleGames={this.props.games.list.length}
                 />
-                <ul style={{ display: this.props.games.list.length ? 'block': 'none' }}>
-                    {this.mapItems()}
-                </ul>
+                <table style={{ 
+                    display: this.props.games.list.length ? 'block': 'none' 
+                }}>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Genre</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.mapItems()}
+                    </tbody>                    
+                </table>
             </div>
             
         );
@@ -24,7 +37,17 @@ class List extends Component{
 
     mapItems() {
         return this.props.games.list.map((item, index) => {
-            return (<li key={index}>{item.name} ({item.genre})</li>);
+            return (<tr key={index}>
+                        <td>
+                            {item.name}
+                        </td>
+                        <td>
+                            {item.genre}
+                        </td>
+                        <td>
+                            <button onClick={this.props.removeGame.bind(this, item.name)}>remove</button>
+                        </td>
+                    </tr>);
         })
     }
 };
@@ -33,4 +56,8 @@ function mapStateToProps({games}) {
     return {games};
 }
 
-export default connect(mapStateToProps)(List);
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({removeGame}, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(List);

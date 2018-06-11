@@ -6,8 +6,12 @@ import {listGames} from '../actions/games';
 class ShowButton extends Component{
     render() {
         return (
-            <button onClick={this.toggleGamesClick.bind(this)}>
-                { this.props.toggleGames ? 'Hide': 'Show'} games
+            <button 
+                onClick={this.toggleGamesClick.bind(this)}
+                style={{ 
+                    display: this.props.toggleGames ? 'none': 'block' 
+                }}>
+                Show games
             </button>
         )
     }
